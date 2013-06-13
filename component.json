@@ -1,0 +1,16 @@
+{
+  "name": "css",
+  "repo": "stephenmathieson/css",
+  "description": "Insert a style tag into the DOM",
+  "version": "0.0.1",
+  "keywords": [ "css", "stylesheet" ],
+  "dependencies": {},
+  "development": {
+    "visionmedia/mocha": "*"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

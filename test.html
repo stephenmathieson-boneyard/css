@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <title>css()</title>
+    <meta charset="utf-8">
+    <script src="/build/build.js"></script>
+    <link rel="stylesheet" type="text/css" href="/components/visionmedia-mocha/mocha.css">
+    <script src="/components/visionmedia-mocha/mocha.js"></script>
+    <script>
+      mocha.setup('bdd')
+    </script>
+    <script>
+      function assert(expr, msg) {
+        if (!!!expr)
+          throw new Error(msg)
+      }
+    </script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <div id="fixture"></div>
+    <script>
+      describe('css', function () {
+        var css;
+
+        before(function () {
+          css = require('css');
+        });
+
+        it('should inject a <style> tag', function (done) {
+          var actual, expected,
+              fixture = document.getElementById('fixture'),
+              rules = '#fixture { color: red; }',
+              styles = document.getElementsByTagName('style'),
+              count = styles.length;
+
+          css(rules);
+
+          setTimeout(function () {
+            if (window.getComputedStyle) {
+              actual = getComputedStyle(fixture).getPropertyValue('color');
+              expected = 'rgb(255, 0, 0)';
+            } else {
+              // iesux
+              actual = fixture.currentStyle.color;
+              expected = 'red';
+            }
+
+            assert(actual === expected, 'expecting "' + expected + '" not "' + actual + '"');
+            done();
+          }, 0);
+        });
+
+        it('should return the <style> tag', function () {
+          var rules = 'foo{bar:10}',
+              tag = css(rules);
+
+          assert(tag.innerHTML.replace(/\s/g, '') === rules);
+        });
+
+      });
+      mocha.run();
+    </script>
+  </body>
+</html>
